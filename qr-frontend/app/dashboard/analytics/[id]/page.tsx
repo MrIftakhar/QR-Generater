@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useEffect, useState, use } from 'react';
+import { Suspense, useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -24,6 +22,14 @@ interface AnalyticsPageProps {
 }
 
 export default function AnalyticsPage({ params }: AnalyticsPageProps) {
+  return (
+    <Suspense fallback={<div className="text-center mt-5 py-5">Loading scan analytics...</div>}>
+      <AnalyticsPageContent params={params} />
+    </Suspense>
+  );
+}
+
+function AnalyticsPageContent({ params }: AnalyticsPageProps) {
   const { id } = use(params);
   const router = useRouter();
 

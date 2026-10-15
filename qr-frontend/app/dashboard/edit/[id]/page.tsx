@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useEffect, useState, use } from 'react';
+import { Suspense, useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
@@ -12,6 +10,14 @@ interface EditPageProps {
 }
 
 export default function EditQrPage({ params }: EditPageProps) {
+  return (
+    <Suspense fallback={<div className="text-center mt-5 py-5">Loading QR code details...</div>}>
+      <EditQrPageContent params={params} />
+    </Suspense>
+  );
+}
+
+function EditQrPageContent({ params }: EditPageProps) {
   const { id } = use(params);
   const router = useRouter();
 

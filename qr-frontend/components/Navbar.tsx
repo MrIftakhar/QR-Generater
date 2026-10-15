@@ -2,11 +2,19 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import api from '@/lib/axios';
 import { toast } from 'react-toastify';
 
 export default function Navbar() {
+  return (
+    <Suspense fallback={null}>
+      <NavbarContent />
+    </Suspense>
+  );
+}
+
+function NavbarContent() {
   const router = useRouter();
   const pathname = usePathname() || '';
   
