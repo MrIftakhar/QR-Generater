@@ -1,12 +1,11 @@
 services:
   - type: web
     name: qr-backend-api
-    env: php
+    env: docker
     region: oregon
     plan: free
     rootDir: qr-backend
-    buildCommand: composer install --no-dev --optimize-autoloader
-    startCommand: php artisan config:clear && php artisan migrate --force && php -S 0.0.0.0:$PORT -t public
+    dockerfilePath: Dockerfile
     envVars:
       - key: APP_ENV
         value: production
