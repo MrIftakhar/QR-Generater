@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -36,7 +38,9 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
       return;
     }
 
-    fetch(`http://localhost:8000/api/qrcodes/${id}/analytics`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://qr-backend-api-ufmv.onrender.com';
+
+    fetch(`${apiUrl}/api/qrcodes/${id}/analytics`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
