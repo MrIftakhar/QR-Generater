@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import api from '@/lib/axios';
 import { toast } from 'react-toastify';
 
-function NavbarContent() {
+export default function Navbar() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
   
   const [token] = useState<string | null>(() => {
     return typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
@@ -18,8 +18,7 @@ function NavbarContent() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('auth_token');
-    if (storedToken) {
+    if (token) {
       api.get('/user')
         .then((res) => {
           setUserName(res.data.name || 'User');
@@ -27,7 +26,7 @@ function NavbarContent() {
         })
         .catch(() => {});
     }
-  }, [pathname]);
+  }, [token, pathname]);
 
   const handleLogout = async () => {
     try {
@@ -103,13 +102,5 @@ function NavbarContent() {
         </div>
       </div>
     </nav>
-  );
-}
-
-export default function Navbar() {
-  return (
-    <Suspense fallback={null}>
-      <NavbarContent />
-    </Suspense>
   );
 }
