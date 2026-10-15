@@ -17,6 +17,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/stats', [AdminController::class, 'stats']);
 });
+Route::get('/', function () {
+    return response()->json(['status' => 'API is running successfully!']);
+});
 
 // Authenticated User Routes
 Route::middleware('auth:sanctum')->group(function () {
