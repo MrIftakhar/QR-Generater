@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import api from '@/lib/axios';
 import { toast } from 'react-toastify';
 
-export default function Navbar() {
+function NavbarContent() {
   const router = useRouter();
   const pathname = usePathname();
   
@@ -47,7 +47,6 @@ export default function Navbar() {
         </Link>
 
         <div className="ms-auto d-flex align-items-center gap-4">
-          {/* Section Links shifted to the left of Login/Register or Account dropdown */}
           {!token && pathname === '/' && (
             <div className="d-none d-lg-flex align-items-center gap-3">
               <a href="#benefits" className="text-white text-decoration-none small fw-semibold">Benefits</a>
@@ -72,8 +71,6 @@ export default function Navbar() {
                       <i className="bi bi-speedometer2 me-2"></i>Dashboard
                     </Link>
                   </li>
-
-                  {/* Show Admin Console only if user is an admin */}
                   {isAdmin && (
                     <>
                       <li><hr className="dropdown-divider" /></li>
@@ -84,7 +81,6 @@ export default function Navbar() {
                       </li>
                     </>
                   )}
-
                   <li><hr className="dropdown-divider" /></li>
                   <li>
                     <button className="dropdown-item text-danger" onClick={handleLogout}>
@@ -107,5 +103,13 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={null}>
+      <NavbarContent />
+    </Suspense>
   );
 }
