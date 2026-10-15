@@ -1,9 +1,10 @@
 import axios from 'axios';
 
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const cleanApiUrl = rawApiUrl.replace(/\/+$/, '');
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL 
-    ? `${process.env.NEXT_PUBLIC_API_URL}/api` 
-    : 'http://127.0.0.1:8000/api',
+  baseURL: `${cleanApiUrl}/api`,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
